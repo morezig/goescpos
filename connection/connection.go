@@ -23,11 +23,11 @@ func NewConnection(connectionType string, connectionHost string) *escpos.Printer
 
 	}
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err.Error())
 	}
 	printerObj, err := escpos.NewPrinter(f)
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err.Error())
 	}
 	return printerObj
 
