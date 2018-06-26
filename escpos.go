@@ -29,7 +29,7 @@ import (
 
 var (
 	dpi      = flag.Float64("dpi", 50, "screen resolution in Dots Per Inch")
-	fontfile = flag.String("fontfile", "/home/merit/Desktop/DejaVuSansMono-Bold.ttf", "filename of the ttf font")
+	fontfile = flag.String("fontfile", "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf", "filename of the ttf font")
 	hinting  = flag.String("hinting", "none", "none | full")
 	size     = flag.Float64("size", 30, "font size in points")
 	spacing  = flag.Float64("spacing", 1.5, "line spacing (e.g. 2 means double spaced)")

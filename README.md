@@ -82,6 +82,10 @@ func main() {
 }
 ```
 
+## NOTE
+The Imported font inside the code is a system font called DejaVuSansMono-Bold.ttfsoyou shoukd make sure it exists in the system and it'splaced in the "/usr/share/fonts/truetype/dejavu/"
+
+
 ## TODO
 - Fix barcode/image support
 
