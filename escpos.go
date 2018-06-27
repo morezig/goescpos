@@ -28,12 +28,13 @@ import (
 )
 
 var (
-	dpi      = flag.Float64("dpi", 50, "screen resolution in Dots Per Inch")
-	fontfile = flag.String("fontfile", "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf", "filename of the ttf font")
-	hinting  = flag.String("hinting", "none", "none | full")
-	size     = flag.Float64("size", 30, "font size in points")
-	spacing  = flag.Float64("spacing", 1.5, "line spacing (e.g. 2 means double spaced)")
-	wonb     = flag.Bool("whiteonblack", true, "white text on a black background")
+	dpi        = flag.Float64("dpi", 50, "screen resolution in Dots Per Inch")
+	fontfile   = flag.String("fontfile", "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf", "filename of the ttf font")
+	hinting    = flag.String("hinting", "none", "none | full")
+	size       = flag.Float64("size", 30, "font size in points")
+	spacing    = flag.Float64("spacing", 1.5, "line spacing (e.g. 2 means double spaced)")
+	wonb       = flag.Bool("whiteonblack", true, "white text on a black background")
+	imageHight = flag.Int("imagehight", 38, "define image hight to be printed")
 )
 
 // Printer wraps sending ESC-POS commands to a io.Writer.
@@ -670,6 +671,10 @@ func (p *Printer) SetSpacing(spacingVal float64) {
 	*spacing = spacingVal
 }
 
+func (p *Printer) SetImageHight(hight int) {
+	*imageHight = hight
+}
+
 //PrintTextImage takes a string convert it to an image and print it
 func (p *Printer) PrintTextImage(text string) error {
 	// flag.Parse()
@@ -690,7 +695,7 @@ func (p *Printer) PrintTextImage(text string) error {
 		fg, bg = image.White, image.Black
 		ruler = color.RGBA{0x22, 0x22, 0x22, 0xff}
 	}
-	rgba := image.NewRGBA(image.Rect(0, 0, 760, 38))
+	rgba := image.NewRGBA(image.Rect(0, 0, 760, *imageHight))
 	draw.Draw(rgba, rgba.Bounds(), bg, image.ZP, draw.Src)
 	c := freetype.NewContext()
 	c.SetDPI(*dpi)
