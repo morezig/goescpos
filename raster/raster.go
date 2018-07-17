@@ -6,7 +6,7 @@ import (
 )
 
 type Target interface {
-	Raster(width, height, bytesWidth int, rasterData []byte)
+	Raster(width, height, bytesWidth int, rasterData []byte, printingType string)
 }
 
 type Converter struct {
@@ -22,7 +22,7 @@ func (c *Converter) Print(img image.Image, target Target) {
 
 	data, rw, bw := c.ToRaster(img)
 
-	target.Raster(rw, sz.Y, bw, data)
+	target.Raster(rw, sz.Y, bw, data, "bitImage")
 }
 
 func (c *Converter) ToRaster(img image.Image) (data []byte, imageWidth, bytesWidth int) {

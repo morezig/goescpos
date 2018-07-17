@@ -7,6 +7,11 @@ Epson TM-T82 or similar.
 These printers are often used in retail environments in conjunction with a
 point-of-sale (POS) system.
 
+This repo is based on Mike42 python-escpos and php escpos packages 
+
+[1]: https://github.com/python-escpos/python-escpos
+[2]: https://github.com/mike42/escpos-php
+
 ## Installation ##
 
 Install the package via the following:
