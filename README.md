@@ -7,6 +7,11 @@ Epson TM-T82 or similar.
 These printers are often used in retail environments in conjunction with a
 point-of-sale (POS) system.
 
+Some of the work in this repo is based on Mike42 python-escpos and php escpos packages 
+
+[1]: https://github.com/python-escpos/python-escpos
+[2]: https://github.com/mike42/escpos-php
+
 ## Installation ##
 
 Install the package via the following:
@@ -81,6 +86,10 @@ func main() {
     w.Flush()
 }
 ```
+
+## NOTE
+The Imported font inside the code is a system font called DejaVuSansMono-Bold.ttfsoyou shoukd make sure it exists in the system and it'splaced in the "/usr/share/fonts/truetype/dejavu/"
+
 
 ## TODO
 - Fix barcode/image support
