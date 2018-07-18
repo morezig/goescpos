@@ -636,7 +636,7 @@ func (p *Printer) PrintImage(imgPath string) error {
 		MaxWidth:  512,
 		Threshold: 0.5,
 	}
-	// log.Println(img)
+	p.SetAlign("center")
 	rasterConv.Print(img, p)
 	return nil
 }
