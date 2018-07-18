@@ -91,11 +91,9 @@ The Imported font inside the code is a system font called DejaVuSansMono-Bold.tt
 - Fix barcode/image support
 
 ## Credits
-- Repo forked from kenshaw escpos
-- https://github.com/kenshaw/escpos
-- Some of the work in this repo is based on Mike42 python-escpos and php escpos packages 
-- https://github.com/python-escpos/python-escpos
-- https://github.com/mike42/escpos-php
+- Repo forked from [kenshaw](https://github.com/kenshaw/escpos) escpos
+- Some of the work in this repo is based on [python-escpos](https://github.com/python-escpos/python-escpos) and [escpos-php](https://github.com/mike42/escpos-php) packages
+
 
 [1]: http://www.golang.org/project
 [2]: https://en.wikipedia.org/wiki/ESC/P
