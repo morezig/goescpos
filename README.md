@@ -7,16 +7,12 @@ Epson TM-T82 or similar.
 These printers are often used in retail environments in conjunction with a
 point-of-sale (POS) system.
 
-Some of the work in this repo is based on Mike42 python-escpos and php escpos packages 
-
-[1]: https://github.com/python-escpos/python-escpos
-[2]: https://github.com/mike42/escpos-php
 
 ## Installation ##
 
 Install the package via the following:
 
-    go get -u github.com/kenshaw/escpos
+    go get -u github.com/cloudinn/escpos
 
 ## Example epos-server ##
 
@@ -35,11 +31,11 @@ import (
     "bufio"
     "os"
 
-    "github.com/kenshaw/escpos"
+    "github.com/cloudinn/escpos"
 )
 
 func main() {
-    f, err := os.Open("/dev/usb/lp3")
+    f, err := os.Open("/dev/usb/lp0")
     if err != nil {
         panic(err)
     }
@@ -93,6 +89,13 @@ The Imported font inside the code is a system font called DejaVuSansMono-Bold.tt
 
 ## TODO
 - Fix barcode/image support
+
+## Credits
+- Repo forked from kenshaw escpos
+- https://github.com/kenshaw/escpos
+- Some of the work in this repo is based on Mike42 python-escpos and php escpos packages 
+- https://github.com/python-escpos/python-escpos
+- https://github.com/mike42/escpos-php
 
 [1]: http://www.golang.org/project
 [2]: https://en.wikipedia.org/wiki/ESC/P
