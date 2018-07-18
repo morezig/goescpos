@@ -88,7 +88,7 @@ The Imported font inside the code is a system font called DejaVuSansMono-Bold.tt
 
 
 ## TODO
-- Fix barcode/image support
+- Fix barcode support
 
 ## Credits
 - Repo forked from [kenshaw](https://github.com/kenshaw/escpos) escpos
