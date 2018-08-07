@@ -11,7 +11,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"path/filepath"
 	"strconv"
 	"strings"
 	"sync"
@@ -726,7 +725,7 @@ func (p *Printer) PrintTextImage(text string) error {
 	pt.Y += c.PointToFixed(*size * *spacing)
 
 	// Save that RGBA image to disk.
-	outFile, err := os.Create("out.png")
+	outFile, err := os.Create("/var/tmp/posTextImage.png")
 	if err != nil {
 		// os.Exit(1)
 		return err
@@ -744,11 +743,8 @@ func (p *Printer) PrintTextImage(text string) error {
 		// os.Exit(1)
 		return err
 	}
-	filePath, err := filepath.Abs(filepath.Dir(outFile.Name()))
-	if err != nil {
-		return err
-	}
-	p.PrintImage(filePath + "/" + outFile.Name())
+
+	p.PrintImage(outFile.Name())
 
 	return nil
 }
