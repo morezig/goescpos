@@ -7,6 +7,11 @@ import (
 	"flag"
 	"fmt"
 	"image"
+	"image/color"
+	"image/draw"
+	_ "image/gif"
+	_ "image/jpeg"
+	"image/png"
 	"io"
 	"io/ioutil"
 	"log"
@@ -15,15 +20,10 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/cloudinn/escpos/raster"
 	"github.com/golang/freetype"
 	"golang.org/x/image/font"
 
-	"image/color"
-	"image/draw"
-	_ "image/gif"
-	_ "image/jpeg"
-	"image/png"
+	"github.com/cloudinn/escpos/raster"
 )
 
 var (
@@ -747,4 +747,66 @@ func (p *Printer) PrintTextImage(text string) error {
 	p.PrintImage(outFile.Name())
 
 	return nil
+}
+
+// TextToRaster takes a string, font size, boolean value if true will print text black background white
+// if false will print text white background black
+// return slice bytes of raster image with width and height
+func (p *Printer) TextToRaster(text string, fontSize float64, wb bool) (data []byte, width int, height int, err error) {
+	fontBytes, err := ioutil.ReadFile(*fontfile)
+	if err != nil {
+		return nil, 0, 0, err
+	}
+	f, err := freetype.ParseFont(fontBytes)
+	if err != nil {
+		return nil, 0, 0, err
+	}
+
+	// Initialize the context.
+	fg, bg := image.Black, image.White
+	ruler := color.RGBA{0xdd, 0xdd, 0xdd, 0xff}
+	if wb {
+		fg, bg = image.White, image.Black
+		ruler = color.RGBA{0x22, 0x22, 0x22, 0xff}
+	}
+	rgba := image.NewRGBA(image.Rect(0, 0, 760, *imageHight))
+	draw.Draw(rgba, rgba.Bounds(), bg, image.ZP, draw.Src)
+	c := freetype.NewContext()
+	c.SetDPI(*dpi)
+	c.SetFont(f)
+	c.SetFontSize(fontSize)
+	c.SetClip(rgba.Bounds())
+	c.SetDst(rgba)
+	c.SetSrc(fg)
+	switch *hinting {
+	default:
+		c.SetHinting(font.HintingNone)
+	case "full":
+		c.SetHinting(font.HintingFull)
+	}
+
+	// Draw the guidelines.
+	for i := 0; i < 200; i++ {
+		rgba.Set(10, 10+i, ruler)
+		rgba.Set(10+i, 10, ruler)
+	}
+
+	// Draw the text.
+	pt := freetype.Pt(10, 10+int(c.PointToFixed(fontSize)>>6))
+	_, err = c.DrawString(text, pt)
+	if err != nil {
+		return nil, 0, 0, err
+	}
+	pt.Y += c.PointToFixed(fontSize * *spacing)
+
+	rasterConv := &raster.Converter{
+		MaxWidth:  512,
+		Threshold: 0.5,
+	}
+
+	height = rgba.Bounds().Size().Y
+
+	data, width, _ = rasterConv.ToRaster(rgba)
+
+	return data, width, height, nil
 }
