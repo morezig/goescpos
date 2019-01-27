@@ -21,6 +21,7 @@ import (
 	"sync"
 
 	"github.com/golang/freetype"
+	"github.com/nfnt/resize"
 	"golang.org/x/image/font"
 
 	"github.com/cloudinn/escpos/raster"
@@ -624,6 +625,10 @@ func (p *Printer) PrintImage(imgPath string) error {
 	}
 
 	img, imgFormat, err := image.Decode(imgFile)
+	imgConfig, _, _ := image.DecodeConfig(imgFile)
+	if imgConfig.Height > 450 || imgConfig.Width > 450 {
+		img = resize.Resize(450, 0, img, resize.Lanczos3)
+	}
 	imgFile.Close()
 	if err != nil {
 		// log.Fatal(err)
