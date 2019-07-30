@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/moovweb/gokogiri"
+	"github.com/cloudinn/gokogiri"
 )
 
 const (
