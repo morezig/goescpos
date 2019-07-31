@@ -3,8 +3,8 @@ package escpos
 import (
 	"errors"
 
-	"github.com/moovweb/gokogiri/xml"
-	"github.com/moovweb/gokogiri/xpath"
+	"github.com/cloudinn/gokogiri/xml"
+	"github.com/cloudinn/gokogiri/xpath"
 )
 
 var (
