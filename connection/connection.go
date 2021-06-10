@@ -4,6 +4,7 @@ import (
 	"io"
 	"net"
 	"os"
+	"time"
 
 	"github.com/cloudinn/escpos"
 )
@@ -17,7 +18,7 @@ func NewConnection(connectionType string, connectionHost string) (*escpos.Printe
 	if connectionType == "usb" {
 		f, err = os.OpenFile(connectionHost, os.O_WRONLY, 0)
 	} else if connectionType == "network" {
-		f, err = net.Dial("tcp", connectionHost)
+		f, err = net.DialTimeout("tcp", connectionHost, 10*time.Second)
 	}
 	if err != nil {
 		return nil, err
