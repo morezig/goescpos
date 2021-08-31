@@ -19,6 +19,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/golang/freetype"
 	"github.com/nfnt/resize"
@@ -40,7 +41,7 @@ var (
 // Printer wraps sending ESC-POS commands to a io.Writer.
 type Printer struct {
 	// destination
-	w io.Writer
+	w io.ReadWriter
 
 	// font metrics
 	width, height byte
@@ -58,7 +59,7 @@ type Printer struct {
 }
 
 // NewPrinter creates a new printer using the specified writer.
-func NewPrinter(w io.Writer /*, opts ...PrinterOption*/) (*Printer, error) {
+func NewPrinter(w io.ReadWriter /*, opts ...PrinterOption*/) (*Printer, error) {
 	if w == nil {
 		return nil, errors.New("must supply valid writer")
 	}
@@ -70,6 +71,19 @@ func NewPrinter(w io.Writer /*, opts ...PrinterOption*/) (*Printer, error) {
 	}
 
 	return p, nil
+}
+
+func (p *Printer) ReadStatus() bool {
+	statusOnline := []byte{0x10, 0x04, 0x01}
+	p.w.Write(statusOnline)
+	time.Sleep(1 * time.Second)
+	buf := make([]byte, 1)
+	p.w.Read(buf)
+	maskOnline := byte(uint(8))
+	if len(buf) == 0 {
+		return false
+	}
+	return (buf[0] & maskOnline) == 0
 }
 
 // Reset resets the printer state.
