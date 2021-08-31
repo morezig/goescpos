@@ -23,7 +23,7 @@ type Server struct {
 }
 
 // NewServer creates a new ePOS server.
-func NewServer(w io.Writer, opts ...ServerOption) (*Server, error) {
+func NewServer(w io.ReadWriter, opts ...ServerOption) (*Server, error) {
 	var err error
 
 	// create printer

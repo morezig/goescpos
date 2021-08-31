@@ -12,7 +12,7 @@ import (
 //NewConnection creats a connection with a usb printer or a network printer and
 //returns an object to use escops package functions with
 func NewConnection(connectionType string, connectionHost string) (*escpos.Printer, error) {
-	var f io.Writer
+	var f io.ReadWriter
 	var err error
 
 	if connectionType == "usb" {
