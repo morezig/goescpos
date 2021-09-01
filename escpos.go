@@ -15,6 +15,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"net"
 	"os"
 	"strconv"
 	"strings"
@@ -98,6 +99,10 @@ func (p *Printer) Reset() {
 
 	p.reverse = 0
 	p.smooth = 0
+}
+
+func (p *Printer) CloseConnection() error {
+	return p.w.(net.Conn).Close()
 }
 
 // Write writes buf to printer.
