@@ -18,7 +18,7 @@ func NewConnection(connectionType string, connectionHost string) (*escpos.Printe
 	if connectionType == "usb" {
 		f, err = os.OpenFile(connectionHost, os.O_WRONLY, 0)
 	} else if connectionType == "network" {
-		f, err = net.DialTimeout("tcp", connectionHost, 1 * time.Second)
+		f, err = net.DialTimeout("tcp", connectionHost, 3*time.Second)
 	}
 	if err != nil {
 		return nil, err
