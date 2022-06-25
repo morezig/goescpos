@@ -20,7 +20,14 @@ type Converter struct {
 func (c *Converter) Print(img image.Image, target Target) {
 	sz := img.Bounds().Size()
 
-	data, rw, bw := c.ToRaster(img)
+	grayImg := image.NewGray(img.Bounds())
+	for y := img.Bounds().Min.Y; y < img.Bounds().Max.Y; y++ {
+		for x := img.Bounds().Min.X; x < img.Bounds().Max.X; x++ {
+			grayImg.Set(x, y, img.At(x, y))
+		}
+	}
+
+	data, rw, bw := c.ToRaster(grayImg)
 
 	target.Raster(rw, sz.Y, bw, data, "bitImage")
 }
