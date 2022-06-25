@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/cloudinn/escpos"
+	escpos "github.com/morezig/goescpos"
 )
 
 //NewConnection creats a connection with a usb printer or a network printer and
