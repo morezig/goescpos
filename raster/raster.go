@@ -56,7 +56,7 @@ func (c *Converter) ToRaster(img image.Image) (data []byte, imageWidth, bytesWid
 				// line_start is y * bytesWidth
 				// then 8 bits per byte
 				// data[y*bytesWidth+x/8] |= 0x80 >> uint(x%8)
-				data[y*bytesWidth+x/8] |= 1 << uint(x%8)
+				data[y*bytesWidth+x/8] |= 0x80 << uint(x%8)
 			}
 		}
 	}
