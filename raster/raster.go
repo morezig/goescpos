@@ -49,16 +49,16 @@ func (c *Converter) ToRaster(img image.Image) (data []byte, imageWidth, bytesWid
 
 	data = make([]byte, bytesWidth*sz.Y)
 
-	for y := 0; y < sz.Y; y++ {
-		for x := 0; x < imageWidth; x++ {
-			if lightness(img.At(x, y)) >= c.Threshold {
-				// position in data is: line_start + x / 8
-				// line_start is y * bytesWidth
-				// then 8 bits per byte
-				data[y*bytesWidth+x/8] |= 0x80 >> uint(x%8)
-			}
-		}
-	}
+	// for y := 0; y < sz.Y; y++ {
+	// 	for x := 0; x < imageWidth; x++ {
+	// 		if lightness(img.At(x, y)) >= c.Threshold {
+	// 			// position in data is: line_start + x / 8
+	// 			// line_start is y * bytesWidth
+	// 			// then 8 bits per byte
+	// 			data[y*bytesWidth+x/8] |= 0x80 >> uint(x%8)
+	// 		}
+	// 	}
+	// }
 
 	return
 }
