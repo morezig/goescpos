@@ -1,4 +1,4 @@
-module github.com/cloudinn/escpos
+module github.com/morezig/goescpos
 
 go 1.12
 
