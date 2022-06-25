@@ -27,7 +27,7 @@ func (c *Converter) Print(img image.Image, target Target) {
 	// 	}
 	// }
 
-	data, rw, bw := c.ToRaster(grayImg)
+	data, rw, bw := c.ToRaster(img)
 
 	target.Raster(rw, sz.Y, bw, data, "bitImage")
 }
