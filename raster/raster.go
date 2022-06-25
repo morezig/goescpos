@@ -20,13 +20,6 @@ type Converter struct {
 func (c *Converter) Print(img image.Image, target Target) {
 	sz := img.Bounds().Size()
 
-	// grayImg := image.NewGray(img.Bounds())
-	// for y := img.Bounds().Min.Y; y < img.Bounds().Max.Y; y++ {
-	// 	for x := img.Bounds().Min.X; x < img.Bounds().Max.X; x++ {
-	// 		grayImg.Set(x, y, img.At(x, y))
-	// 	}
-	// }
-
 	data, rw, bw := c.ToRaster(img)
 
 	target.Raster(rw, sz.Y, bw, data, "bitImage")
@@ -51,11 +44,16 @@ func (c *Converter) ToRaster(img image.Image) (data []byte, imageWidth, bytesWid
 
 	for y := 0; y < sz.Y; y++ {
 		for x := 0; x < imageWidth; x++ {
-			if lightness(img.At(x, y)) >= c.Threshold {
-				// position in data is: line_start + x / 8
-				// line_start is y * bytesWidth
-				// then 8 bits per byte
-				data[y*bytesWidth+x/8] |= 0x80 >> uint(x%8)
+			// if lightness(img.At(x, y)) >= c.Threshold {
+			// 	// position in data is: line_start + x / 8
+			// 	// line_start is y * bytesWidth
+			// 	// then 8 bits per byte
+			// 	data[y*bytesWidth+x/8] |= 0x80 >> uint(x%8)
+			// }
+			if lightness(img.At(x, y)) < 128 {
+				data[y*bytesWidth+x/8] = 0
+			} else {
+				data[y*bytesWidth+x/8] = 255
 			}
 		}
 	}
@@ -68,6 +66,12 @@ const (
 )
 
 func lightness(c color.Color) float64 {
+	r, g, b, _ := c.RGBA()
+
+	return (float64(r) * 0.299) + (float64(g) * 0.587) + (float64(b) * 0.114)
+}
+
+func lightness_bak(c color.Color) float64 {
 	r, g, b, _ := c.RGBA()
 
 	return float64(lumR*r+lumG*g+lumB*b) / float64(0xffff*(lumR+lumG+lumB))
