@@ -44,17 +44,18 @@ func (c *Converter) ToRaster(img image.Image) (data []byte, imageWidth, bytesWid
 
 	for y := 0; y < sz.Y; y++ {
 		for x := 0; x < imageWidth; x++ {
-			// if lightness(img.At(x, y)) >= c.Threshold {
-			// 	// position in data is: line_start + x / 8
-			// 	// line_start is y * bytesWidth
-			// 	// then 8 bits per byte
-			// 	data[y*bytesWidth+x/8] |= 0x80 >> uint(x%8)
-			// }
-			if lightness(img.At(x, y)) {
-				data[y*bytesWidth+x/8] |= 1 << uint(x%8)
-			} else {
-				data[y*bytesWidth+x/8] &^= 1 << uint(x%8)
+			if lightness(img.At(x, y)) >= c.Threshold {
+				// position in data is: line_start + x / 8
+				// line_start is y * bytesWidth
+				// then 8 bits per byte
+				data[y*bytesWidth+x/8] |= 0x80 >> uint(x%8)
 			}
+
+			// if chk_lightness(img.At(x, y)) {
+			// 	data[y*bytesWidth+x/8] |= 1 << uint(x%8)
+			// } else {
+			// 	data[y*bytesWidth+x/8] &^= 1 << uint(x%8)
+			// }
 		}
 	}
 
@@ -62,16 +63,17 @@ func (c *Converter) ToRaster(img image.Image) (data []byte, imageWidth, bytesWid
 }
 
 const (
-	lumR, lumG, lumB = 55, 182, 18
+	lumR, lumG, lumB    = 55, 182, 18
+	clumR, clumG, clumB = 299, 587, 114
 )
 
-func lightness(c color.Color) bool {
+func chk_lightness(c color.Color) bool {
 	r, g, b, _ := c.RGBA()
-	y := (299*r + 587*g + 114*b + 500) / 1000
+	y := (clumR*r + clumG*g + clumB*b + 500) / 1000
 	return (uint16(y) < 0x8000)
 }
 
-func lightness_bak(c color.Color) float64 {
+func lightness(c color.Color) float64 {
 	r, g, b, _ := c.RGBA()
 
 	return float64(lumR*r+lumG*g+lumB*b) / float64(0xffff*(lumR+lumG+lumB))

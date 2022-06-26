@@ -23,10 +23,9 @@ import (
 	"time"
 
 	"github.com/golang/freetype"
+	"github.com/morezig/goescpos/raster"
 	"github.com/nfnt/resize"
 	"golang.org/x/image/font"
-
-	"github.com/cloudinn/escpos/raster"
 )
 
 var (
