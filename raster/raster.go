@@ -17,12 +17,14 @@ type Converter struct {
 	Threshold float64
 }
 
-func (c *Converter) Print(img image.Image, target Target) {
+func (c *Converter) Print(img image.Image, target Target, imgtype string) {
 	sz := img.Bounds().Size()
 
 	data, rw, bw := c.ToRaster(img)
 
-	target.Raster(rw, sz.Y, bw, data, "bitImage")
+	// target.Raster(rw, sz.Y, bw, data, "bitImage")
+	target.Raster(rw, sz.Y, bw, data, imgtype)
+
 }
 
 func (c *Converter) ToRaster(img image.Image) (data []byte, imageWidth, bytesWidth int) {

@@ -635,7 +635,7 @@ var textReplacer = strings.NewReplacer(
 )
 
 // PrintImage Print Image
-func (p *Printer) PrintImage(imgPath string) error {
+func (p *Printer) PrintImage(imgPath string, printImageType string) error {
 	imgFile, err := os.Open(imgPath)
 	if err != nil {
 		// log.Fatal(err)
@@ -659,7 +659,7 @@ func (p *Printer) PrintImage(imgPath string) error {
 		Threshold: 0.5,
 	}
 	p.SetAlign("center")
-	rasterConv.Print(img, p)
+	rasterConv.Print(img, p, printImageType)
 	return nil
 }
 
@@ -767,7 +767,7 @@ func (p *Printer) PrintTextImage(text string) error {
 		return err
 	}
 
-	p.PrintImage(outFile.Name())
+	p.PrintImage(outFile.Name(), "bitImage")
 
 	return nil
 }
