@@ -63,15 +63,8 @@ func (c *Converter) ToRaster(img image.Image) (data []byte, imageWidth, bytesWid
 }
 
 const (
-	lumR, lumG, lumB    = 55, 182, 18
-	clumR, clumG, clumB = 299, 587, 114
+	lumR, lumG, lumB = 55, 182, 18
 )
-
-func chk_lightness(c color.Color) bool {
-	r, g, b, _ := c.RGBA()
-	y := (clumR*r + clumG*g + clumB*b + 500) / 1000
-	return (uint16(y) < 0x8000)
-}
 
 func lightness(c color.Color) float64 {
 	r, g, b, _ := c.RGBA()

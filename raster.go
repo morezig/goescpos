@@ -38,8 +38,7 @@ func (p *Printer) Raster(width, height, lineWidth int, imgBw []byte, printingTyp
 
 	if printingType == "bitImage" {
 		densityByte := byte(0)
-		header := []byte{
-			0x1D, 0x76, 0x30}
+		header := []byte{0x1D, 0x76, 0x30}
 		header = append(header, densityByte)
 		width = (width + 7) >> 3
 		header = append(header, intLowHigh(width, 2)...)
@@ -84,7 +83,5 @@ func (p *Printer) Raster(width, height, lineWidth int, imgBw []byte, printingTyp
 
 			l += lines
 		}
-
 	}
-
 }
