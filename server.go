@@ -6,8 +6,6 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
-
-	"github.com/cloudinn/gokogiri"
 )
 
 const (
@@ -82,18 +80,10 @@ func (s *Server) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	}
 	defer req.Body.Close()
 
-	// parse xml with gokogiri
-	doc, err := gokogiri.ParseXml(body)
+	// parse xml with standard library
+	nodes, err := getBodyChildren(body)
 	if err != nil {
-		http.Error(res, "cannot load XML", http.StatusBadRequest)
-		return
-	}
-	defer doc.Free()
-
-	// load print nodes from xml doc
-	nodes, err := getBodyChildren(doc)
-	if err != nil {
-		http.Error(res, "cannot find SOAP request Body", http.StatusBadRequest)
+		http.Error(res, "cannot parse XML or find SOAP request Body", http.StatusBadRequest)
 		return
 	}
 
@@ -103,13 +93,10 @@ func (s *Server) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	// loop over nodes
 	for _, n := range nodes {
 		// grab parameters
-		params := make(map[string]string)
-		for _, attr := range n.Attributes() {
-			params[attr.Name()] = attr.Value()
-		}
+		params := n.Attributes()
 
 		// write data to printer
-		s.p.WriteNode(n.Name(), params, n.Content())
+		s.p.WriteNode(n.Name(), params, n.Content)
 	}
 
 	// end

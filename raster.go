@@ -21,7 +21,7 @@ func intLowHigh(inpNumber int, outBytes int) []byte {
 		log.Println("Can only output 1-4 bytes")
 	}
 	if inpNumber < 0 || inpNumber > maxInput {
-		log.Println("Number too large. Can only output up to " + string(maxInput) + " in" + string(outBytes) + "byes")
+		log.Printf("Number too large. Can only output up to %d in %d bytes\n", maxInput, outBytes)
 	}
 	var outp []byte
 	for i := 0; i < outBytes; i++ {
